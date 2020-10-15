@@ -1,0 +1,28 @@
+<Configuration>
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--pattern="%d{yyyy-MM-dd HH:mm:ss}[%t:%p] %c{2}:%L %m%n" /> -->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss:SSS}%-5r[%t]%-5p %C{2}:%L - %m%n"/>
+        </Console>
+
+        <!-- File Appender -->
+        <RollingFile name="RollingFile" fileName="./logs/flink-test.log"
+                     filePattern="./logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss:SSS}%-5r[%t]%-5p %C{2}:%L - %m%n"></PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy></TimeBasedTriggeringPolicy>
+                <SizeBasedTriggeringPolicy size="100 MB"></SizeBasedTriggeringPolicy>
+            </Policies>
+            <DefaultRolloverStrategy max="40"></DefaultRolloverStrategy>
+        </RollingFile>
+
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
