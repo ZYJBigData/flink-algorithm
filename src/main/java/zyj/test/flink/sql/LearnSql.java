@@ -1,5 +1,5 @@
 package zyj.test.flink.sql;
 
-public class learnSql {
+public class LearnSql {
 
 }

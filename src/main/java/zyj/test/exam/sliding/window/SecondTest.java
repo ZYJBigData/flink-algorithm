@@ -1,6 +1,6 @@
 package zyj.test.exam.sliding.window;
 
-public class secondTest {
+public class SecondTest {
     /**
      * 给你一个字符串 S、一个字符串 T 。请你设计一种算法，可以在 O(n) 的时间复杂度内，从字符串 S 里面找出：包含 T 所有字符的最小子串。
      * 示例：
@@ -72,7 +72,7 @@ public class secondTest {
         String str2 = "ADOBECODEBANC", tis2 = "ABC";
         String str3 = "DBADBEECCODEBANCC", tis3 = "ABCC";
 
-        secondTest secondTest = new secondTest();
+        SecondTest secondTest = new SecondTest();
         String result1 = secondTest.minWindow(str1, tis1);
         System.out.println("str1 result value: " + result1);
 

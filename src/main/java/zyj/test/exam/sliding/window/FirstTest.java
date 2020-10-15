@@ -27,7 +27,7 @@ import java.util.Map;
  * Input: s = ""
  * Output: 0
  */
-public class firstTest {
+public class FirstTest {
     public int lengthOfLongestSubString(String s) {
         if (s.length() == 0) {
             return 0;
@@ -51,7 +51,7 @@ public class firstTest {
         String str2 = "bbbbb";
         String str3 = "pwwkew";
         String str4 = "";
-        firstTest firstTest = new firstTest();
+        FirstTest firstTest = new FirstTest();
         int max1 = firstTest.lengthOfLongestSubString(str1);
         System.out.println(max1);
         int max2 = firstTest.lengthOfLongestSubString(str2);
