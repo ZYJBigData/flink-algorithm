@@ -6,7 +6,6 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.util.Collector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,19 +18,13 @@ public class WordCountLocal {
         // 此方法如果是通过命令行的方式 flink run 获取的是远程环境的上下文
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         DataStream<String> text = env.socketTextStream("localhost", 9000, "\n");
-        SingleOutputStreamOperator<WordWithCount> words = text.flatMap(new FlatMapFunction<String, WordWithCount>() {
-            public void flatMap(String value, Collector<WordWithCount> out) throws Exception {
-                for (String word : value.split("\\s")) {
-                    out.collect(new WordWithCount(word, 1L));
-                }
+        SingleOutputStreamOperator<WordWithCount> words = text.flatMap((FlatMapFunction<String, WordWithCount>) (value, out) -> {
+            for (String word : value.split("\\s")) {
+                out.collect(new WordWithCount(word, 1L));
             }
         }).keyBy("word")
                 .timeWindow(Time.seconds(5), Time.seconds(1))
-                .reduce(new ReduceFunction<WordWithCount>() {
-                    public WordWithCount reduce(WordWithCount w1, WordWithCount w2) throws Exception {
-                        return new WordWithCount(w1.word, w1.count + w2.count);
-                    }
-                });
+                .reduce((ReduceFunction<WordWithCount>) (w1, w2) -> new WordWithCount(w1.word, w1.count + w2.count));
         words.print().setParallelism(1);
         env.execute("Socket Window WordCount");
     }
